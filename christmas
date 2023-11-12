@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas list</title>
+</head>
+
+<body>
+    <ul>
+        <h1> Co bych si přál na vánoce 
+        <hr>
+        <br>
+        <a href="https://www.lego.com/cs-cz/product/porsche-911-rsr-42096" target=_blank title="Porsche">
+            <li>Porsche 911 RSR</li>
+        </a>
+        
+        <br>
+        <br>
+
+        <a href="https://m.alza.cz/jbl-charge-5-cerny-d6369354.htm?o=1" target=_blank title="reprak">
+            <li>Jbl charge 5</li>
+        </a>
+        <br>
+        <br>
+        <a>
+            <li>Nějaké skvělé frisky</li>
+    </a>
+    </a>
+    <br>
+    <br>
+    <img src="IMG_1027.JPG" title="christmas tree" height="500">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!---you can have it autoplay by using autoplay or muted by using muted smae with mute-->
+    <audio autoplay controls src="Jingle Bells - Kevin MacLeod.mp3">
+
+</body>
+</html>
