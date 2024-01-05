@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Menu Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #353535;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #menu-container {
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-checkbox {
+            margin-bottom: 10px;
+        }
+
+        .category-dropdown {
+            margin-bottom: 10px;
+        }
+
+        #generate-btn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #menu-output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu-container">
+    <h2>Random Menu Generator</h2>
+
+    <!-- Checkboxes for each day -->
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Pondělí"> Pondělí</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Úterý"> Úterý</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Středa"> Středa</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Čtvrtek"> Čtvrtek</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Pátek"> Pátek</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Sobota"> Sobota</label>
+    <label class="day-checkbox"><input type="checkbox" class="day-checkbox" value="Neděle"> Neděle</label>
+
+    <!-- Dropdowns for each day to select food category -->
+    <div id="category-dropdowns"></div>
+
+    <!-- Button to generate random menu -->
+    <button id="generate-btn">Generate Random Menu</button>
+
+    <!-- Display the random menu here -->
+    <div id="menu-output"></div>
+</div>
+
+<script>
+    const selected_foods = {"těstoviny": new Set(), "asie_indie": new Set(), "ryba": new Set(),
+                  "kureci_maso": new Set(), "veprove_hovezi_maso": new Set(), "ostatni": new Set()};
+
+    const foodCategories = {
+        "těstoviny": ["Těstoviny", "Těstoviny s buratou", "Salsicia", "Bolognese", "Lasagne s mozarellou", "Lasagne bolognese",
+            "Carbonara", "Těstoviny s panenkou/svíčkovou", "Casarecce", "Těstoviny s červenou omáčkou",
+            "Těstoviny/těstovinová rýře s masovými koulemi", "těstovinový salát", "hovězí na houbách + špagety"],
+        "asie_indie": ["Butter chicken", "Thajské curry", "Smažená rýže od tatínka", "Čína", "Celerova Čína",
+            "Pad thai nudle", "Hovězí nudle", "Rybí thajské koláčky", "Halloumi",
+            "Hovězí na asijský spůsob s rýží", "medovo sezamové kuřě"],
+        "ryba": ["losos", "biela ryba + rajčata + olivy", "biela ryba + špenát", "mečoun", "steak tuňák",
+            "ryba v solné krustě"],
+        "kureci_maso": ["Perkelt", "Pečené kura", "Kuřecí steaky a pečená zelenina", "Kuřecí piccata (citron/kapary)",
+            "Rizoto", "Rízek", "Spíži", "kuřecí/krůtí maroko", "zapečené prsa mozarella rajčata pesto",
+            "tarhoňa + maso", "maso + šalvěj + zelenina"],
+        "veprove_hovezi_maso": ["Panenka + noky", "Burger", "steak", "Trhané maso + placka", "Chilli con carne",
+            "Trhané maso do bulky + coleslaw", "hovězí bourginon", "zapečená zelenina s mletým masem",
+            "koložvárska kapusta"],
+        "ostatni": ["červená polievka", "dýňová polievka", "chleba vo vajíčku", "palačinky na slano", "thajská polievka",
+            "vývar", "minestrone"]
+    };
+
+    document.getElementById("generate-btn").addEventListener("click", generateRandomMenu);
+
+    function generateRandomMenu() {
+        const days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"];
+        const menuOutput = document.getElementById("menu-output");
+        menuOutput.innerHTML = ""; // Clear previous menu
+
+        days.forEach(day => {
+            const categoryDropdown = document.getElementById(`category-${day}`);
+            const selectedCategory = categoryDropdown.value;
+
+            if (document.querySelector(`.day-checkbox[value="${day}"]:checked`) && selectedCategory !== "") {
+                const selectedFood = selectedCategory === "None" ? "None" : getRandomFood(selectedCategory);
+                const dayMenu = document.createElement("p");
+                dayMenu.innerText = `${day}: ${selectedCategory}: ${selectedFood}`;
+                menuOutput.appendChild(dayMenu);
+            }
+        });
+    }
+
+    function getRandomFood(category) {
+        const availableFoods = foodCategories[category].filter(food => !selected_foods[category].has(food));
+
+        if (availableFoods.length === 0) {
+            alert(`Není dostatek jídla pro ${category}. Prosím přidat jídlo.`);
+            return "";
+        }
+
+        const selectedFood = availableFoods[Math.floor(Math.random() * availableFoods.length)];
+        selected_foods[category].add(selectedFood);
+        return selectedFood;
+    }
+
+    // Create dropdowns for each day
+    const categoryDropdowns = document.getElementById("category-dropdowns");
+
+    const days = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"];
+
+    days.forEach(day => {
+        const categoryDropdown = document.createElement("select");
+        categoryDropdown.id = `category-${day}`;
+        categoryDropdown.className = "category-dropdown";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "None";
+        defaultOption.text = "None";
+        categoryDropdown.appendChild(defaultOption);
+
+        Object.keys(foodCategories).forEach(category => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.text = category;
+            categoryDropdown.appendChild(option);
+        });
+
+        categoryDropdowns.appendChild(categoryDropdown);
+    });
+</script>
+
+</body>
+</html>
